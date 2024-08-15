@@ -1,0 +1,304 @@
+{% if title %}
+<title>{{ title }}</title>
+{% else %}
+<title>QRGen</title>
+{% endif %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+<style>
+    /*==Reset CSS==*/
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    /*==Style cơ bản cho website==*/
+    body {
+        font-family: sans-serif;
+        color: #333;
+    }
+
+    /*==Style cho menu===*/
+    #menu ul {
+        background: #1F568B;
+        list-style-type: none;
+        text-align: center;
+    }
+
+    #menu li {
+        color: #f1f1f1;
+        display: inline-block;
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+        margin-left: -5px;
+    }
+
+    #menu a {
+        text-decoration: none;
+        color: #fff;
+        display: block;
+    }
+
+    #menu a:hover {
+        background: #F1F1F1;
+        color: #333;
+    }
+
+    .frame-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        border-radius: 8px;
+    }
+
+    .footer {
+        background-color: #f8f9fa;
+        color: #333;
+        padding: 40px 0;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .footer .footer-content {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        align-items: flex-start;
+    }
+
+    .footer .footer-content .left,
+    .footer .footer-content .right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer .footer-content .left {
+        padding-left: 20px;
+    }
+
+    .footer .footer-content .right {
+        padding-right: 20px;
+    }
+
+    .footer .footer-content .left .branding {
+        margin-bottom: 10px;
+    }
+
+    .footer .footer-content .left .links a {
+        color: #333;
+        text-decoration: none;
+        display: inline-block;
+        margin: 0 10px 5px 0;
+    }
+
+    .footer .footer-content .left .links a:hover {
+        text-decoration: underline;
+    }
+
+    .footer .footer-content .right .social-icons {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 10px;
+    }
+
+    .footer .footer-content .right .social-icons a {
+        text-decoration: none;
+        margin: 0 10px;
+        font-size: 20px;
+        transition: color 0.3s;
+    }
+
+    .footer .footer-content .right .social-icons a.facebook {
+        color: #3b5998;
+    }
+
+    .footer .footer-content .right .social-icons a.twitter {
+        color: #1da1f2;
+    }
+
+    .footer .footer-content .right .social-icons a.instagram {
+        color: #e4405f;
+    }
+
+    .footer .footer-content .right .social-icons a.behance {
+        color: #1769ff;
+    }
+
+    .footer .footer-content .right .social-icons a.youtube {
+        color: #ff0000;
+    }
+
+    .footer .footer-content .right .social-icons a:hover {
+        color: #007bff;
+    }
+
+    .footer .footer-content .right .navigation {
+        margin-top: 10px;
+    }
+
+    .footer .footer-content .right .navigation a {
+        color: #333;
+        text-decoration: none;
+        display: inline-block;
+        margin: 0 10px 5px 0;
+    }
+
+    .footer .footer-content .right .navigation a:hover {
+        text-decoration: underline;
+    }
+
+    .footer .copy-right {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #777;
+        text-align: center;
+        width: 100%;
+    }
+
+    .icon-container {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        /* Add this to allow wrapping */
+    }
+
+    .icon-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 80px;
+    }
+
+    .icon-box .icon-image {
+        width: 48px;
+        /* Fixed width */
+        height: 48px;
+        /* Fixed height */
+        margin-bottom: 10px;
+    }
+
+    .icon-box a {
+        text-decoration: none;
+        color: black;
+        /* Adjust the font size if needed */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav>
+    <div id="menu">
+        <ul>
+            <li><a href="{{url_for('admin')}}">Trang chủ</a></li>
+            <li><a href="{{url_for('report')}}">Báo cáo</a></li>
+            {% if session['role'] == '0' %}
+            <li><a href="{{ url_for('createqr') }}">In QR</a></li>
+            {% else %}
+            <li><a href="{{ url_for('query') }}">Truy vấn</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('contact') }}">Liên hệ</a></li>
+            <li><a href="{{url_for('logout')}}">Thoát</a></li>
+        </ul>
+    </div>
+</nav>
+
+<body>
+    <div class="frame-box">
+        <div>
+            <h1>Hello {{ username }}</h1> <!-- Giả sử tên người dùng ở vị trí 1 trong tuple -->
+        </div>
+        <div class="icon-container">
+            <div class="icon-box">
+                <a href="{{url_for('report')}}">
+                    <img src="../static/img/report1.png" alt="Báo cáo" class="icon-image">
+                    Báo cáo</a>
+            </div>
+            {% if session['role'] == '0' %}
+            <div class="icon-box">
+                <a href="{{url_for('addTB')}}">
+                    <img src="../static/img/add.webp" alt="Thêm thiết bị" class="icon-image">
+                    Thêm thiết bị</a>
+            </div>
+            <div class="icon-box">
+                <a href="{{url_for('createqr')}}">
+                    <img src="../static/img/createqr.png" alt="Truy vấn" class="icon-image">
+                    Tạo QRCode</a>
+            </div>
+            <div class="icon-box">
+                <a href="{{url_for('requestTB')}}">
+                    <img src="../static/img/logfile-use.png" alt="Thoát" class="icon-image">
+                    Danh sách yêu cầu TB</a>
+            </div>
+            <div class="icon-box">
+                <a href="{{url_for('history')}}">
+                    <img src="../static/img/history-use.png" alt="Thoát" class="icon-image">
+                    Lịch sử sử dụng</a>
+            </div>
+            {% endif %}
+            <div class="icon-box">
+                <a href="{{url_for('list')}}">
+                    <img src="../static/img/list.webp" alt="Thoát" class="icon-image">
+                    Danh sách TB</a>
+            </div>
+            <div class="icon-box">
+                <a href="{{url_for('contact')}}">
+                    <img src="../static/img/contact.webp" alt="Liên hệ" class="icon-image">
+                    Liên hệ</a>
+            </div>
+            <div class="icon-box">
+                <a href="{{url_for('logout')}}">
+                    <img src="../static/img/logout.png" alt="Thoát" class="icon-image">
+                    Thoát</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+<footer>
+    <div class="footer">
+        <div class="footer-content">
+            <div class="left">
+                <div class="branding">
+                    <h3>Colorlib</h3>
+                </div>
+                <div class="links">
+                    <a href="#privacy">Privacy</a>
+                    <a href="#policy">Policy</a>
+                </div>
+            </div>
+            <div class="right">
+                <div class="social-icons">
+                    <a href="#facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#twitter" class="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#behance" class="behance"><i class="fab fa-behance"></i></a>
+                    <a href="#youtube" class="youtube"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="navigation">
+                    <a href="#home">Home</a>
+                    <a href="#works">Our works</a>
+                    <a href="#about">About</a>
+                    <a href="#blog">Blog</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="copy-right">
+            &copy; 2024. Bản quyền thuộc sở hữu Võ Ngọc Anh Thư B2004756.
+        </div>
+    </div>
+</footer>
+{% endblock %}

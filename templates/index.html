@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>QRGen</title>
+    {% endif %}
+
+    <style>
+        /*==Reset CSS==*/
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        /*==Style cơ bản cho website==*/
+        body {
+            font-family: sans-serif;
+            color: #333;
+        }
+
+        /*==Style cho menu===*/
+        #menu ul {
+            background: #1F568B;
+            list-style-type: none;
+            text-align: center;
+        }
+
+        #menu li {
+            color: #f1f1f1;
+            display: inline-block;
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            margin-left: -5px;
+        }
+
+        #menu a {
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+
+        #menu a:hover {
+            background: #F1F1F1;
+            color: #333;
+        }
+
+
+        .footer {
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 40px 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .footer .footer-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: flex-start;
+        }
+
+        .footer .footer-content .left,
+        .footer .footer-content .right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .footer .footer-content .left {
+            padding-left: 20px;
+        }
+
+        .footer .footer-content .right {
+            padding-right: 20px;
+        }
+
+        .footer .footer-content .left .branding {
+            margin-bottom: 10px;
+        }
+
+        .footer .footer-content .left .links a {
+            color: #333;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 10px 5px 0;
+        }
+
+        .footer .footer-content .left .links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer .footer-content .right .social-icons {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .footer .footer-content .right .social-icons a {
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .footer .footer-content .right .social-icons a.facebook {
+            color: #3b5998;
+        }
+
+        .footer .footer-content .right .social-icons a.twitter {
+            color: #1da1f2;
+        }
+
+        .footer .footer-content .right .social-icons a.instagram {
+            color: #e4405f;
+        }
+
+        .footer .footer-content .right .social-icons a.behance {
+            color: #1769ff;
+        }
+
+        .footer .footer-content .right .social-icons a.youtube {
+            color: #ff0000;
+        }
+
+        .footer .footer-content .right .social-icons a:hover {
+            color: #007bff;
+        }
+
+        .footer .footer-content .right .navigation {
+            margin-top: 10px;
+        }
+
+        .footer .footer-content .right .navigation a {
+            color: #333;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 10px 5px 0;
+        }
+
+        .footer .footer-content .right .navigation a:hover {
+            text-decoration: underline;
+        }
+
+        .footer .copy-right {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+
+    {% block styles %}
+    {% endblock %}
+</head>
+
+<body>
+    <div id="menu">
+        <ul>
+            {% if session['role'] == '0' %}
+            <li><a href="{{url_for('admin')}}">Trang chủ</a></li>
+            {% else %}
+            <li><a href="{{url_for('home')}}">Trang chủ</a></li>
+            {% endif %}
+            <li><a href="{{url_for('report')}}">Báo cáo</a></li>
+            {% if session['role'] == '0' %}
+            <li><a href="{{ url_for('createqr') }}">In QR</a></li>
+            {% else %}
+            <li><a href="{{ url_for('query') }}">Truy vấn</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('contact') }}">Liên hệ</a></li>
+            <li><a href="{{url_for('logout')}}">Thoát</a></li>
+        </ul>
+    </div>
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+<footer>
+    <div class="footer">
+        <div class="footer-content">
+            <div class="left">
+                <div class="branding">
+                    <h3>Colorlib</h3>
+                </div>
+                <div class="links">
+                    <a href="#privacy">Privacy</a>
+                    <a href="#policy">Policy</a>
+                </div>
+            </div>
+            <div class="right">
+                <div class="social-icons">
+                    <a href="#facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#twitter" class="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#behance" class="behance"><i class="fab fa-behance"></i></a>
+                    <a href="#youtube" class="youtube"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="navigation">
+                    <a href="#home">Home</a>
+                    <a href="#works">Our works</a>
+                    <a href="#about">About</a>
+                    <a href="#blog">Blog</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="copy-right">
+            &copy; 2024. Bản quyền thuộc sở hữu Võ Ngọc Anh Thư B2004756.
+        </div>
+    </div>
+</footer>
+
+</html>

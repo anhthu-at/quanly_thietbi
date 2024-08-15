@@ -1,0 +1,120 @@
+{% extends "index.html" %}
+
+{% block style %}
+<style>
+     /*==Style cho form==*/
+     .mt-4 {
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-style {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .form-control-sm {
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+        }
+
+        .is-invalid {
+            border-color: #e3342f;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23e3342f'%3e%3cpath d='M16 1.15L14.85 0 8 6.85 1.15 0 0 1.15 6.85 8 0 14.85 1.15 16 8 9.15 14.85 16 16 14.85 9.15 8z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+
+        .invalid-feedback {
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: #e3342f;
+        }
+
+        .btn-outline-primary {
+            color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-outline-primary:hover {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .mb-4{
+            display: flex;
+            justify-content: center;
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <div class="card card-style mb-2">
+        <div class="card-body justify-content-center">
+            <form after action="", method="POST">
+                {{ form.csrf_token() }}
+                <fieldset class="form-group">
+                    <legend class="mb-4">Create QRCODE</legend>
+                    <div class="form-group">
+                        {{ form.data.label(class="form-control-label") }}
+                        {% if form.data.errors %}
+                            {{ form.data(class="form-control form-control-sm is-invalid")}}
+                            {% for error in form.data.erros %}
+                                <div class="invalid-feedback">
+                                    <span>{{ error }}</span>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {{ form.data(class="form-control form-control-sm")}}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group border-bottom pd-3 mt-4">
+                        {{ form.submit(class="btn btn-outline-primary") }}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

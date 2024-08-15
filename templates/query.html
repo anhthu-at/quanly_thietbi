@@ -1,0 +1,86 @@
+{% extends "index.html" %}
+{% block styles %}
+<style>
+    body {
+        margin-bottom: 200px;
+    }
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .form-group textarea {
+        resize: vertical;
+        height: 100px;
+    }
+    .form-group button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        color: white;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .form-group button:hover {
+        background-color: #45a049;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Yêu Cầu Thiết Bị</h2>
+    <form method="POST" action="{{ url_for('submit_request') }}">
+        <div class="form-group">
+            <label for="deviceNumber">Mã thiết bị:</label>
+            <input type="text" id="deviceNumber" name="deviceNumber" value="{{ device_number }}" required>
+        </div>
+        <div class="form-group">
+            <label for="deviceName">Tên thiết bị:</label>
+            <input type="text" id="deviceName" name="deviceName" value="{{ device_name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="department">Cấp cho phòng ban:</label>
+            <input type="text" id="department" name="department" value="{{ device_address }}" required>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Số lượng:</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Mô tả:</label>
+            <textarea id="description" name="description"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit">Gửi yêu cầu</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

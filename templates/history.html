@@ -1,0 +1,126 @@
+{% extends "index.html" %}
+{% block styles %}
+<style>
+    body {
+        margin-bottom: 500px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+    th,
+    td {
+        padding: 10px;
+        text-align: left;
+    }
+    thead {
+        background-color: #f2f2f2;
+    }
+    .title {
+        text-align: center;
+    }
+    .button-container {
+        text-align: center;
+        margin: 20px 0;
+    }
+    .button-container button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 0 10px;
+        cursor: pointer;
+        background-color: #4CAF50;
+        /* Màu nền */
+        color: white;
+        /* Màu chữ */
+        border: none;
+        /* Không viền */
+        border-radius: 5px;
+        /* Bo góc */
+        transition: background-color 0.3s ease;
+        /* Hiệu ứng chuyển đổi màu nền */
+    }
+    .button-container button:hover {
+        background-color: #45a049;
+        /* Màu nền khi hover */
+    }
+    .search-container {
+        text-align: center;
+        margin: 20px 0;
+    }
+    .search-input {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px 0 0 5px;
+        border: 1px solid #ccc;
+        width: 300px;
+    }
+    .search-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #4CAF50;
+        /* Màu nền */
+        color: white;
+        /* Màu chữ */
+        border: 1px solid #4CAF50;
+        border-radius: 0 5px 5px 0;
+        transition: background-color 0.3s ease;
+        /* Hiệu ứng chuyển đổi màu nền */
+    }
+    .search-button:hover {
+        background-color: #45a049;
+        /* Màu nền khi hover */
+    }
+</style>
+{% endblock %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<h2 class="title">LỊCH SỬ SỬ DỤNG THIẾT BỊ</h2>
+
+<div class="button-container">
+    <button onclick="window.location.href='/request-device'">Yêu cầu thiết bị</button>
+</div>
+
+<div class="search-container">
+    <form method="GET" action="{{ url_for('history') }}">
+        <input type="text" name="search" class="search-input" placeholder="Tìm kiếm thiết bị...">
+        <button type="submit" class="search-button">Tìm Kiếm</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Mã sử dụng</th>
+            <th>Mã thiết bị</th>
+            <th>Mã phòng</th>
+            <th>Trạng thái</th>
+            <th>Số lượng</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if log_use %}
+            {% for tb in log_use %}
+            <tr>
+                <td>{{ tb[0] }}</td>
+                <td>{{ tb[1] }}</td>
+                <td>{{ tb[2] }}</td>
+                <td>{{ tb[3] }}</td>
+                <td>{{ tb[4] }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7" style="text-align:center;">Không tìm thấy kết quả tìm kiếm.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}

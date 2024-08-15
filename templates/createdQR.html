@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+{% block content %}
+<head>
+    <style>
+        .mt-4{
+            margin: 3% auto 3% auto;
+            padding: 20px 0 150px 0;
+            border: 3px solid orange;
+        }
+    </style>
+</head>
+<div class="mt-4">
+    <h3>Success</h3>
+    <a href="{{ url_for('static', filename=image)}}" class="btn btn-primary" download="qrcode-image"> Download Image</a>
+    <img style="margin: auto;" src="{{ url_for('static', filename=image) }}" alt="QRCode image">
+    </div>
+
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends "report.html" %}
+
+{% block styles %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-top: 20px;
+    }
+
+    #content-wrapper {
+        display: flex;
+        justify-content: space-between;
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px 0 250px 0;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #camera-container , .report-container{
+        width: 50%;
+        display: block;
+        padding: 20px;
+    }
+
+    .camera-button button {
+        justify-content: center;
+        width: calc(50% - 11px);
+        ;
+        align-items: flex-end;
+        padding: 10px 0;
+        margin: 0 5px 10px 5px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    form {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    input[type="text"] {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin: 5px 0 20px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .button-container,
+    .camera-button {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .frame-container {
+        width: 100%;
+        height: 83%;
+        border: 1px solid #cacaca;
+    }
+
+    .button-container button {
+        width: calc(50% - 11px);
+        background-color: #005f6b;
+        color: white;
+        padding: 10px 0;
+        margin: 0 5px 10px 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        display: inline-block;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+
+    .button-container button:first-child,
+    .camera-button button:first-child {
+        background-color: #4caf50;
+        float: left;
+    }
+
+    .camera-button button:last-child {
+        float: right;
+    }
+
+    .button-container button:last-child {
+        background-color: #ff0000;
+        float: right;
+    }
+
+    .button-container button:hover {
+        opacity: 0.9;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<body>
+    <h1>Báo cáo trạng thái thiết bị</h1>
+    <div id="content-wrapper">
+        <div id="camera-container">
+            <div class="frame-container">
+                <div class="frame">
+                     
+                    <!-- <iframe id="camera-frame" name="cameraframe" 
+                    style="display: none; width: 100%; height: 100%; border: none;"> -->
+                    <img id="open_camera" src="{{url_for('open_camera')}}" alt="" srcset="" width="100%" height="100%">
+                </iframe>
+                </div>
+            </div>
+            <div class="camera-button">
+                <button id="scan-button" onclick="reportCam()">Lấy dữ liệu</button>
+                <button id="upload-button" onclick="openImage()">Upload Ảnh</button>
+            </div>
+        </div>
+
+        <div class="report-container">
+            <form method="post" onsubmit="return validateForm()">
+                <label for="deviceNumber">Mã số thiết bị:</label><br>
+                <input type="text"  name="device_number" value="{{ number_tb }}"
+                    placeholder="Please enter number "> <br>
+    
+                <label for="device_name">Tên thiết bị:</label><br>
+                <input type="text"  name="device_name" value="{{ name_tb }}"
+                placeholder="Please enter name">  <br>
+    
+                <label for="location">Phòng ban:</label><br>
+                <input type="text" id="location" name="location" value="{{ location  }}"
+                    placeholder="Please enter class"> <br>
+    
+                <label for="description">Mô tả:</label><br>
+                <input type="text" id="description" name="description" value="{{ description }}" 
+                placeholder="Please enter description">{{ description }}<br>
+            </form>
+            <div class="button-container">
+                <button onclick="reportGood()" name="device_status" value="active">Thiết bị hoạt động</button>
+                <button onclick="reportBreak()" name="device_status" value="broken">Thiết bị hỏng</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            var deviceName = document.getElementById("device_name").value;
+            var status = document.getElementById("status").value;
+            var description = document.getElementById("description").value;
+            var location = document.getElementById("location").value;
+            if (deviceName == "" || status == "" || location == "") {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                return false;
+            }
+            return true;
+        }
+
+        function reportCam() {
+           window.location.href = "/getqrcamera";
+        }
+
+        function openImage() {
+            window.location.href = "/upload";
+        }
+        function reportBreak() {
+            if (confirm("Bạn có chắc chắn thiết bị này bị hỏng?")) {
+                window.location.href = "/reportbreak";
+            }
+        }
+    </script>
+</body>
+{% endblock %}

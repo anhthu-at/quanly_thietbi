@@ -1,0 +1,15 @@
+<table border="1">
+    {% for user in userDetails %}
+    <tr>
+        <td> {{user[0]}} </td>
+        <td> {{user[1]}} </td>
+        <td> {{user[2]}} </td>
+    </tr>
+        {% if user[2] == 2 %}
+        <td> {{user[0]}} </td>
+        <td> {{user[1]}} </td>
+        <td> {{user[2]}} </td>
+        {% endif %}
+    {% endfor %}
+</table>
+
